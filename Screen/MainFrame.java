@@ -1,6 +1,9 @@
 package Screen;
 
-import java.awt.ComponentOrientation;
+
+
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -8,20 +11,23 @@ import javax.swing.event.ChangeListener;
 
 import Utility.Tuple;
 
-public class MainFrame extends JFrame implements ChangeListener {
+public class MainFrame extends JFrame implements ChangeListener, ActionListener {
 
     private ImageLabel Image;
     private JPanel contentPane;
     private JPanel pannel;
     private JLabel label;
 
-    private JSlider seed;
-    private JSlider scale;
-    private JSlider octave;
-    private JSlider persistance;
-    private JSlider lacunarity;
-    private JSlider offsetX;
-    private JSlider offsetY;
+    private Slider seed = new Slider(0, 100000, 0, "seed", this);
+    private Slider scale = new Slider(0, 100, 27, "scale", this);
+    private Slider octave = new Slider(0, 10, 4, "octave", this);
+    private Slider persistance = new Slider(0, 10, 5, "persistance", this);
+    private Slider lacunarity = new Slider(0, 100, 18, "lacunarity", this);
+    private Slider offsetX= new Slider(0, 100, 0, "offsetX", this);
+    private Slider offsetY= new Slider(0, 100, 0, "offsetY", this);
+
+    private Bouton noiseMap = new Bouton("Noise Map", 540, 10, 200, this);
+    private Bouton colorMap = new Bouton("Color Map", 750, 10, 200, this);
 
     private Tuple offset;
 
@@ -34,42 +40,24 @@ public class MainFrame extends JFrame implements ChangeListener {
         this.contentPane = new JPanel();
         contentPane.setLayout(null);
 
-        seed = new JSlider(0, 100000, 0);
-        seed.setBounds(540, 100, 200, 20);
-        seed.addChangeListener(this);
-        contentPane.add(seed);
+        seed.setBounds(540, 100, 210, 35);
+        seed.addToPanel(contentPane);
+        scale.setBounds(540, 135, 210, 35);
+        scale.addToPanel(contentPane);
+        octave.setBounds(540, 170, 210, 35);
+        octave.addToPanel(contentPane);
+        persistance.setBounds(540, 205, 210, 35);
+        persistance.addToPanel(contentPane);
+        lacunarity.setBounds(540, 240, 210, 35);
+        lacunarity.addToPanel(contentPane);
+        offsetX.setBounds(540, 350, 210, 35);
+        offsetX.addToPanel(contentPane);
+        offsetY.setBounds(540, 385, 210, 35);
+        offsetY.addToPanel(contentPane);
+        offset = new Tuple(offsetY.getValue(), offsetX.getValue());
 
-        scale = new JSlider(0, 100, 27);
-        scale.setBounds(540, 140, 200, 20);
-        scale.addChangeListener(this);
-        contentPane.add(scale);
-
-        octave = new JSlider(0, 10, 4);
-        octave.setBounds(540, 180, 200, 20);
-        octave.addChangeListener(this);
-        contentPane.add(octave);
-
-        persistance = new JSlider(0, 10, 5);
-        persistance.setBounds(540, 200, 200, 20);
-        persistance.addChangeListener(this);
-        contentPane.add(persistance);
-
-        lacunarity = new JSlider(0, 100, 18);
-        lacunarity.setBounds(540, 250, 200, 20);
-        lacunarity.addChangeListener(this);
-        contentPane.add(lacunarity);
-
-        offsetX = new JSlider(0, 100, 0);
-        offsetX.setBounds(540, 500, 200, 20);
-        offsetX.addChangeListener(this);
-        contentPane.add(offsetX);
-
-        offsetY = new JSlider(0, 100, 0);
-        offsetY.setBounds(540, 600, 200, 20);
-        offsetY.addChangeListener(this);
-        contentPane.add(offsetY);
-
-        offset = new Tuple(offsetX.getValue(), offsetY.getValue());
+        noiseMap.addToPanel(contentPane);
+        colorMap.addToPanel(contentPane);
 
         Image = new ImageLabel(100, 100, seed.getValue(), scale.getValue(), octave.getValue(), persistance.getValue()/10f, lacunarity.getValue()/10f, offset);
         pannel = new JPanel();
@@ -91,28 +79,39 @@ public class MainFrame extends JFrame implements ChangeListener {
 
     @Override
     public void stateChanged(ChangeEvent e) {
-        if (e.getSource() == seed) {
+        JSlider source = (JSlider)e.getSource();
+        if (source == seed.getSlider()) {
+            seed.changeValue(seed.getValue());
             Image.setseed(seed.getValue());
-            this.afficher();
-        } else if (e.getSource() == scale) {
+        } else if (source == scale.getSlider()) {
+            scale.changeValue(scale.getValue());
             Image.setnoisescale(scale.getValue());
-            this.afficher();
-        } else if (e.getSource() == octave) {
+        } else if (source == octave.getSlider()) {
+            octave.changeValue(octave.getValue());
             Image.setoctave(octave.getValue());
-            this.afficher();
-        } else if (e.getSource() == persistance) {
+        } else if (source == persistance.getSlider()) {
+            persistance.changeValue(persistance.getValue());
             Image.setpersistance(persistance.getValue()/10f);
-            this.afficher();
-        } else if (e.getSource() == lacunarity) {
+        } else if (source == lacunarity.getSlider()) {
+            lacunarity.changeValue(lacunarity.getValue());
             Image.setlacunarity(lacunarity.getValue()/10f);
-            this.afficher();
-        } else if (e.getSource() == offsetX) {
+        } else if (source == offsetX.getSlider()) {
+            offsetX.changeValue(offsetX.getValue());
             Image.setoffsetX(offsetX.getValue());
-            this.afficher();
-        } else if (e.getSource() == offsetY) {
+        } else if (source == offsetY.getSlider()) {
+            offsetY.changeValue(offsetY.getValue());
             Image.setoffsetY(offsetY.getValue());
-            this.afficher();
         }
+        this.afficher();
     }
     //JColorChooser
+
+    @Override
+    public void actionPerformed(ActionEvent e) {
+        if (e.getSource() == noiseMap) {
+            Image.toNoiseMap();
+        } else if (e.getSource() == colorMap) { 
+            Image.toColorMap();
+        } this.afficher();
+    }
 }

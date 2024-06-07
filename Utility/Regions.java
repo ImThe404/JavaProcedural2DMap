@@ -17,4 +17,8 @@ public class Regions {
         TerrainList.remove(t);
     }
 
+    public ArrayList<TerrainType> getTerrainList() {
+        return TerrainList;
+    }
+
 }

@@ -22,9 +22,6 @@ public class Noise2DMap {
             scale = 0.0001f;
         }
 
-        float maxNoiseHeight = -100;
-        float minNoiseHeight = 100;
-
         float halfWidth = MAP_WIDTH / 2f;
         float halfheight = MAP_HEIGHT / 2f;
 
@@ -48,27 +45,9 @@ public class Noise2DMap {
                     amplitude *=  persistance;
                     frequency *= lacunarity;
                 }
-                
-                if ( maxNoiseHeight < noiseHeight) {
-                    maxNoiseHeight = noiseHeight;
-                } else if ( minNoiseHeight > noiseHeight) {
-                    minNoiseHeight = noiseHeight;
-                }
                 noiseMap[x][y] = noiseHeight;
             }
         }
-        /* 
-        System.out.println(minNoiseHeight);
-        System.out.println(maxNoiseHeight);
-        for (int y = 0; y < MAP_HEIGHT ; y++ ) {
-            for (int x = 0; x < MAP_WIDTH ; x++ ) {
-                float value = (1.0f - noiseMap[x][y]) * minNoiseHeight + maxNoiseHeight * noiseMap[x][y];
-                noiseMap[x][y] = ( (value - minNoiseHeight) / (maxNoiseHeight - minNoiseHeight) ); // Inverse Lerp
-            }
-        }
-        System.out.println(minNoiseHeight);
-        System.out.println(maxNoiseHeight);
-*/
 
         return noiseMap;
     }

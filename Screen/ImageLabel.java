@@ -13,6 +13,7 @@ public class ImageLabel {
 
     private BufferedImage bufferedImage;
     private Graphics2D g2d;
+    private int choice;
 
     private int MAP_WIDTH;
     private int MAP_HEIGHT;
@@ -35,6 +36,7 @@ public class ImageLabel {
         lacunarity = lacunarity_;
         offset = offset_;
         
+        choice = 0;
         this.paint();
     }
 
@@ -47,7 +49,24 @@ public class ImageLabel {
                 float multiplicateur = ArrayMap[row][col] / 2 + 0.5f;
                 if ( multiplicateur > 1) { multiplicateur = 1;}
                 if ( multiplicateur < 0) { multiplicateur = 0;}
-                Color c = new Color(multiplicateur, multiplicateur, multiplicateur);
+                Color c = new Color(0);
+                if (choice == 0) {
+                    c = new Color(multiplicateur, multiplicateur, multiplicateur);
+                } else if (choice == 1) {
+                    if ( multiplicateur < 0.2 ) {
+                        c = new Color(20, 150, 220);
+                    } else if ( multiplicateur < 0.3 ) {
+                        c = new Color(20, 170, 250);
+                    } else if ( multiplicateur < 0.8) {
+                        c = new Color(35, 210, 0);
+                    } else if ( multiplicateur < 0.85 ) {
+                        c = new Color(155, 100, 55);
+                    } else if ( multiplicateur < 0.95 ) {
+                        c = new Color(130, 80, 45);
+                    } else {
+                        c = new Color(255, 255, 255);
+                    }
+                }
                 g2d.setColor(c);
                 g2d.fillRect(col*5, row*5, 5, 5);
 			}
@@ -77,11 +96,19 @@ public class ImageLabel {
         this.paint();
     }
     public void setoffsetX(int value) {
-        this.offset.setFirst(value);
+        this.offset.setSecond(value);
         this.paint();
     }
     public void setoffsetY(int value) {
-        this.offset.setSecond(value);
+        this.offset.setFirst(value);
+        this.paint();
+    }
+    public void toNoiseMap() {
+        this.choice = 0;
+        this.paint();
+    }
+    public void toColorMap() {
+        this.choice = 1;
         this.paint();
     }
 
