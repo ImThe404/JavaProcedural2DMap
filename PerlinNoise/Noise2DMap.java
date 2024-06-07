@@ -10,11 +10,11 @@ public class Noise2DMap {
         float[][] noiseMap = new float[MAP_WIDTH][MAP_HEIGHT];
 
         Random prng = new Random(seed);
-        Tuple[] octavesOffsets = new Tuple[octaves];
+        Tuple[] octaveOffsets = new Tuple[octaves];
         for ( int i = 0; i < octaves; i++) {
             float offsetX = prng.nextInt(200000) -100000 + offset.getFirst();
             float offsetY = prng.nextInt(200000) -100000 + offset.getSecond();
-            octavesOffsets[i] = new Tuple(offsetX, offsetY);
+            octaveOffsets[i] = new Tuple(offsetX, offsetY);
         }
 
 
@@ -37,8 +37,8 @@ public class Noise2DMap {
 
 
                 for (int i = 0 ; i < octaves ; i++ ) {
-                    float sampleX = (x - halfWidth) / scale * frequency + octavesOffsets[i].getFirst();
-                    float sampleY = (y - halfheight) / scale * frequency + octavesOffsets[i].getSecond();
+                    float sampleX = (x - halfWidth) / scale * frequency + octaveOffsets[i].getFirst();
+                    float sampleY = (y - halfheight) / scale * frequency + octaveOffsets[i].getSecond();
 
                     float perlinValue = (float) Noise.noise(sampleX, sampleY);
                     if ( perlinValue > 1 || perlinValue < -1 ) {

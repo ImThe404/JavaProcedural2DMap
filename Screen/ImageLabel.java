@@ -44,7 +44,7 @@ public class ImageLabel {
         float[][] ArrayMap = Noise2DMap.GenerateNoiseMap(MAP_WIDTH, MAP_HEIGHT, seed, noiseScale, octaves, persistance, lacunarity, offset);
         for (int row = 0; row < MAP_HEIGHT; row++) {
 			for (int col = 0; col < MAP_HEIGHT; col++) {
-                float multiplicateur = ArrayMap[row][col];
+                float multiplicateur = ArrayMap[row][col] / 2 + 0.5f;
                 if ( multiplicateur > 1) { multiplicateur = 1;}
                 if ( multiplicateur < 0) { multiplicateur = 0;}
                 Color c = new Color(multiplicateur, multiplicateur, multiplicateur);
