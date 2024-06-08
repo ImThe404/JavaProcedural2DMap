@@ -9,8 +9,17 @@ public class Regions {
         TerrainList = new ArrayList<>();
     }
 
+    public Regions(ArrayList<TerrainType> list) {
+        TerrainList = list;
+    }
+
     public void addTerrain(TerrainType t) {
-        TerrainList.add(t);
+        for (int i = 0 ; i < TerrainList.size() ; i++ ) {
+            if (t.getHeight() < TerrainList.get(i).getHeight() ) {
+                TerrainList.add(i, t);
+                break;
+            }
+        } 
     }
 
     public void removeTerrain(TerrainType t) {

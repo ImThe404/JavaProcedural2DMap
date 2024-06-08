@@ -7,6 +7,8 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 
 import PerlinNoise.Noise2DMap;
+import Utility.Regions;
+import Utility.TerrainType;
 import Utility.Tuple;
 
 public class ImageLabel {
@@ -23,10 +25,11 @@ public class ImageLabel {
     private float persistance;
     private float lacunarity;
     private Tuple offset;
+    private Regions regions;
 
     public JLabel Image;
 
-    public ImageLabel(int width, int height, int seed_, float noiseScale_, int octaves_, float persistance_, float lacunarity_, Tuple offset_) {
+    public ImageLabel(int width, int height, int seed_, float noiseScale_, int octaves_, float persistance_, float lacunarity_, Tuple offset_, Regions regions_) {
         MAP_WIDTH = width;
         MAP_HEIGHT = height;
         seed = seed_;
@@ -35,12 +38,13 @@ public class ImageLabel {
         persistance = persistance_;
         lacunarity = lacunarity_;
         offset = offset_;
+        regions = regions_;
         
         choice = 0;
         this.paint();
     }
 
-    private void paint() {
+    public void paint() {
         this.bufferedImage = new BufferedImage(500, 500, BufferedImage.TYPE_INT_RGB);
         this.g2d = bufferedImage.createGraphics();
         float[][] ArrayMap = Noise2DMap.GenerateNoiseMap(MAP_WIDTH, MAP_HEIGHT, seed, noiseScale, octaves, persistance, lacunarity, offset);
@@ -53,18 +57,11 @@ public class ImageLabel {
                 if (choice == 0) {
                     c = new Color(multiplicateur, multiplicateur, multiplicateur);
                 } else if (choice == 1) {
-                    if ( multiplicateur < 0.2 ) {
-                        c = new Color(20, 150, 220);
-                    } else if ( multiplicateur < 0.3 ) {
-                        c = new Color(20, 170, 250);
-                    } else if ( multiplicateur < 0.8) {
-                        c = new Color(35, 210, 0);
-                    } else if ( multiplicateur < 0.85 ) {
-                        c = new Color(155, 100, 55);
-                    } else if ( multiplicateur < 0.95 ) {
-                        c = new Color(130, 80, 45);
-                    } else {
-                        c = new Color(255, 255, 255);
+                    for ( TerrainType terrain : regions.getTerrainList() ) {
+                        if ( multiplicateur <= terrain.getHeight() ) {
+                            c = terrain.getColor();
+                            break; 
+                        }
                     }
                 }
                 g2d.setColor(c);

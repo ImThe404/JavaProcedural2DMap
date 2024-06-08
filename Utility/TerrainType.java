@@ -27,5 +27,4 @@ public class TerrainType {
     public void setColor(Color c) {
         this.colour = c;
     }
-
 }
