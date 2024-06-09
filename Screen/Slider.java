@@ -4,6 +4,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JSlider;
 
+// Simple class we use to avoid repetition
 public class Slider extends JLabel {
     private JLabel name; 
     private JLabel value;

@@ -1,10 +1,10 @@
 package Utility;
 
-public class Tuple {
-    private float first;
-    private float second;
+public class Tuple<E> {
+    private E first;
+    private E second;
 
-    public Tuple(float f, float s) {
+    public Tuple(E f, E s) {
         first = f;
         second = s;
     }
@@ -12,19 +12,19 @@ public class Tuple {
     public Tuple() {
     }
 
-    public void setFirst(float f) {
+    public void setFirst(E f) {
         first = f;
     }
 
-    public void setSecond(float s) {
+    public void setSecond(E s) {
         second = s;
     }
 
-    public float getFirst() {
+    public E getFirst() {
         return first;
     }
 
-    public float getSecond() {
+    public E getSecond() {
         return second;
     }
 }
