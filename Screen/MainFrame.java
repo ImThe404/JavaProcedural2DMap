@@ -128,10 +128,11 @@ public class MainFrame extends JFrame implements ChangeListener, ActionListener 
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        if (e.getSource() == noiseMap) {
+        Object obj = e.getSource();
+        if (obj == noiseMap) {
             this.Image.toNoiseMap();
             this.afficher();
-        } else if (e.getSource() == colorMap) { 
+        } else if (obj == colorMap) { 
             this.Image.toColorMap();
             this.afficher();
         } else {
@@ -139,11 +140,23 @@ public class MainFrame extends JFrame implements ChangeListener, ActionListener 
             for ( int i = 0 ; i < contentPane.getComponentCount() ; i++ ) {
                 if ( this.contentPane.getComponent(i).getClass() == new Terrain().getClass() ) {
                     Terrain t = (Terrain)contentPane.getComponent(i);
-                    JButton b = (JButton)e.getSource();
-                    if ( b == t.getButton() ) {
-                        ColorChooser c = new ColorChooser(t.getTerrainType(), b, this); 
-                        c.setVisible(true);
+                    if (obj instanceof JButton) {
+                        JButton b = (JButton)obj;
+                        if ( b == t.getButton() ) {
+                            ColorChooser c = new ColorChooser(t.getTerrainType(), b, this); 
+                            c.setVisible(true);
+                        }
+                    } else {
+                        JTextField text = (JTextField)obj;
+                        if ( text == t.getnameTexte() ) {
+                            t.getTerrainType().setName(text.getText());
+                        } else if (text == t.getheighttexte() ) {
+                            t.getTerrainType().setHeight(Float.valueOf(text.getText()));
+                            this.Image.paint();
+                            this.afficher();
+                        }
                     }
+                    
                 }
             }
         }

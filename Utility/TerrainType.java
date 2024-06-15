@@ -16,9 +16,15 @@ public class TerrainType {
     public String getName() {
         return this.name;
     }
+    public void setName(String n) {
+        this.name = n;
+    }
 
     public float getHeight() {
         return this.height;
+    }
+    public void setHeight(float h) {
+        this.height = h;
     }
 
     public Color getColor() {

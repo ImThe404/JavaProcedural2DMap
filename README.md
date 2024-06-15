@@ -1,9 +1,9 @@
-# An java procedural 2D map using perlin noise
+# A java procedural 2D map using perlin noise
 
 ![](/gifMap.gif)
 
 The objective of the project is to have a easy to use procedural map in java using a Perlin noise map. 
-The map can be easly modify using the variables and the differants color in the color map can be change using buttons.
+The map can be easily modify using the variables and the differants color in the color map can be change using buttons.
 To see more informations on how change settings see the rubric down bellow.
 
 ### 2 Buttons :
